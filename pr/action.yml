@@ -1,0 +1,13 @@
+name: 'PR'
+description: 'PR build'
+author: 'Boychenko'
+inputs:
+  access-token:
+    description: 'github token'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+branding:
+  icon: 'check'  
+  color: 'green'
