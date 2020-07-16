@@ -23,28 +23,6 @@ async function run(): Promise<void> {
     fs.mkdirSync('test');
     printDir('.');
 
-    const runId = context.runId;
-    const check = await octokit.checks.getSuite({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      check_suite_id: runId
-    });
-
-    console.log(JSON.stringify(check, null, 2));
-    await octokit.checks.update({
-      check_run_id: runId,
-      //name: 'Tests Report',
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      //status: 'completed',
-      //conclusion: 'success',
-      output: {
-        title: 'Test',
-        summary: 'Summary',
-        text: 'Text'
-      }
-    })
-
   } catch (error) {
     setFailed(error.message);
   }

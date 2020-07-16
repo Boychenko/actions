@@ -16026,26 +16026,6 @@ async function run() {
         process.chdir(ws + '/..');
         fs.mkdirSync('test');
         printDir('.');
-        const runId = github_1.context.runId;
-        const check = await octokit.checks.getSuite({
-            owner: github_1.context.repo.owner,
-            repo: github_1.context.repo.repo,
-            check_suite_id: runId
-        });
-        console.log(JSON.stringify(check, null, 2));
-        await octokit.checks.update({
-            check_run_id: runId,
-            //name: 'Tests Report',
-            owner: github_1.context.repo.owner,
-            repo: github_1.context.repo.repo,
-            //status: 'completed',
-            //conclusion: 'success',
-            output: {
-                title: 'Test',
-                summary: 'Summary',
-                text: 'Text'
-            }
-        });
     }
     catch (error) {
         core_1.setFailed(error.message);
