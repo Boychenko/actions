@@ -16014,7 +16014,6 @@ const shell = __importStar(__webpack_require__(959));
 async function run() {
     try {
         const accessToken = core_1.getInput('access-token');
-        console.log(accessToken);
         const octokit = github_1.getOctokit(accessToken);
         console.log(process_1.env['WORKING_DIRECTORY']);
         console.log(process_1.env['GITHUB_WORKSPACE']);

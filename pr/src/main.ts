@@ -7,7 +7,6 @@ import * as shell from 'shelljs';
 async function run(): Promise<void> {
   try {
     const accessToken = getInput('access-token');
-    console.log(accessToken);
     const octokit = getOctokit(accessToken);
     console.log(env['WORKING_DIRECTORY']);
     console.log(env['GITHUB_WORKSPACE']);
