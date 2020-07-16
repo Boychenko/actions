@@ -16027,6 +16027,12 @@ async function run() {
         fs.mkdirSync('test');
         printDir('.');
         const runId = github_1.context.runId;
+        const check = await octokit.checks.get({
+            owner: github_1.context.repo.owner,
+            repo: github_1.context.repo.repo,
+            check_run_id: runId
+        });
+        console.log(JSON.stringify(check, null, 2));
         await octokit.checks.update({
             check_run_id: runId,
             //name: 'Tests Report',
