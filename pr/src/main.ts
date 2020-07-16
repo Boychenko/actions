@@ -1,6 +1,7 @@
 import {setFailed, getInput, warning, setCommandEcho} from '@actions/core'
 import {getOctokit, context} from '@actions/github'
 import {env} from 'process';
+import * as fs from 'fs';
 
 async function run(): Promise<void> {
   try {
@@ -10,6 +11,11 @@ async function run(): Promise<void> {
     console.log(env['WORKING_DIRECTORY']);
     console.log(env['GITHUB_WORKSPACE']);
     warning(env['HOME'] || '');
+
+    fs.readdirSync(env['GITHUB_WORKSPACE'] || '').forEach(file => {
+      console.log(file);
+    });
+    
   } catch (error) {
     setFailed(error.message);
   }
