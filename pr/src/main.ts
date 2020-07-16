@@ -2,6 +2,7 @@ import {setFailed, getInput, warning, setCommandEcho} from '@actions/core'
 import {getOctokit, context} from '@actions/github'
 import {env} from 'process';
 import * as fs from 'fs';
+import * as shell from 'shelljs';
 
 async function run(): Promise<void> {
   try {
@@ -15,6 +16,8 @@ async function run(): Promise<void> {
     fs.readdirSync(env['GITHUB_WORKSPACE'] || '').forEach(file => {
       console.log(file);
     });
+    process.chdir(env['WORKING_DIRECTORY'] || '');
+    shell.exec('docker build -t dcrtest:1 -f DockerWorkerService/Dockerfile .');
     
   } catch (error) {
     setFailed(error.message);
