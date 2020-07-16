@@ -13,18 +13,25 @@ async function run(): Promise<void> {
     console.log(env['GITHUB_WORKSPACE']);
     warning(env['HOME'] || '');
 
-    fs.readdirSync(env['GITHUB_WORKSPACE'] || '').forEach(file => {
-      console.log(file);
-    });
+    const ws = env['GITHUB_WORKSPACE'] || '';
+    printDir(ws);
     process.chdir(env['WORKING_DIRECTORY'] || '');
+
     const res = shell.exec('docker build -t dcrtest:1 -f DockerWorkerService/Dockerfile .');
-    console.log(res.stdout);
-    console.log(res.stderr);
-    console.log(res.cat());
-    
+
+    process.chdir(ws + '/..');
+    fs.mkdirSync('test');
+    printDir('.');
+
   } catch (error) {
     setFailed(error.message);
   }
+}
+
+function printDir(path: string) {
+  fs.readdirSync(path).forEach(file => {
+    console.log(file);
+  });
 }
 
 run()

@@ -16019,18 +16019,22 @@ async function run() {
         console.log(process_1.env['WORKING_DIRECTORY']);
         console.log(process_1.env['GITHUB_WORKSPACE']);
         core_1.warning(process_1.env['HOME'] || '');
-        fs.readdirSync(process_1.env['GITHUB_WORKSPACE'] || '').forEach(file => {
-            console.log(file);
-        });
+        const ws = process_1.env['GITHUB_WORKSPACE'] || '';
+        printDir(ws);
         process.chdir(process_1.env['WORKING_DIRECTORY'] || '');
         const res = shell.exec('docker build -t dcrtest:1 -f DockerWorkerService/Dockerfile .');
-        console.log(res.stdout);
-        console.log(res.stderr);
-        console.log(res.cat());
+        process.chdir(ws + '/..');
+        fs.mkdirSync('test');
+        printDir('.');
     }
     catch (error) {
         core_1.setFailed(error.message);
     }
+}
+function printDir(path) {
+    fs.readdirSync(path).forEach(file => {
+        console.log(file);
+    });
 }
 run();
 
