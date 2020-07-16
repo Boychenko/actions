@@ -16019,6 +16019,7 @@ async function run() {
         console.log(process_1.env['WORKING_DIRECTORY']);
         console.log(process_1.env['GITHUB_WORKSPACE']);
         core_1.warning(process_1.env['HOME'] || '');
+        console.log(JSON.stringify(github_1.context, null, 2));
         const ws = process_1.env['GITHUB_WORKSPACE'] || '';
         printDir(ws);
         process.chdir(process_1.env['WORKING_DIRECTORY'] || '');

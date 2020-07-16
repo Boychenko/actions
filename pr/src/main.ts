@@ -13,6 +13,7 @@ async function run(): Promise<void> {
     console.log(env['GITHUB_WORKSPACE']);
     warning(env['HOME'] || '');
 
+    console.log(JSON.stringify(context,null, 2));
     const ws = env['GITHUB_WORKSPACE'] || '';
     printDir(ws);
     process.chdir(env['WORKING_DIRECTORY'] || '');
