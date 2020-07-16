@@ -24,10 +24,10 @@ async function run(): Promise<void> {
     printDir('.');
 
     const runId = context.runId;
-    const check = await octokit.checks.get({
+    const check = await octokit.checks.getSuite({
       owner: context.repo.owner,
       repo: context.repo.repo,
-      check_run_id: runId
+      check_suite_id: runId
     });
 
     console.log(JSON.stringify(check, null, 2));
