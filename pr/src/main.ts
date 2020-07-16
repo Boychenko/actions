@@ -17,7 +17,10 @@ async function run(): Promise<void> {
       console.log(file);
     });
     process.chdir(env['WORKING_DIRECTORY'] || '');
-    shell.exec('docker build -t dcrtest:1 -f DockerWorkerService/Dockerfile .');
+    const res = shell.exec('docker build -t dcrtest:1 -f DockerWorkerService/Dockerfile .');
+    console.log(res.stdout);
+    console.log(res.stderr);
+    console.log(res.cat());
     
   } catch (error) {
     setFailed(error.message);
