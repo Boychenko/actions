@@ -8,6 +8,8 @@ async function run(): Promise<void> {
   try {
     const accessToken = getInput('access-token');
     const octokit = getOctokit(accessToken);
+    const imageName = env['IMAGE_NAME'];
+    const dockerFilePath = env['DOCKERFILE_PATH'];
     console.log(env['WORKING_DIRECTORY']);
     console.log(env['GITHUB_WORKSPACE']);
     warning(env['HOME'] || '');
@@ -17,7 +19,7 @@ async function run(): Promise<void> {
     printDir(ws);
     process.chdir(env['WORKING_DIRECTORY'] || '');
 
-    const res = shell.exec('docker build -t dcrtest:1 -f DockerWorkerService/Dockerfile .');
+    const res = shell.exec('docker build -t '+ imageName + ' -f '+ dockerFilePath +' .');
 
     process.chdir(ws + '/..');
     fs.mkdirSync('test');

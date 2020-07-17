@@ -16015,6 +16015,8 @@ async function run() {
     try {
         const accessToken = core_1.getInput('access-token');
         const octokit = github_1.getOctokit(accessToken);
+        const imageName = process_1.env['IMAGE_NAME'];
+        const dockerFilePath = process_1.env['DOCKERFILE_PATH'];
         console.log(process_1.env['WORKING_DIRECTORY']);
         console.log(process_1.env['GITHUB_WORKSPACE']);
         core_1.warning(process_1.env['HOME'] || '');
@@ -16022,7 +16024,7 @@ async function run() {
         const ws = process_1.env['GITHUB_WORKSPACE'] || '';
         printDir(ws);
         process.chdir(process_1.env['WORKING_DIRECTORY'] || '');
-        const res = shell.exec('docker build -t dcrtest:1 -f DockerWorkerService/Dockerfile .');
+        const res = shell.exec('docker build -t ' + imageName + ' -f ' + dockerFilePath + ' .');
         process.chdir(ws + '/..');
         fs.mkdirSync('test');
         printDir('.');
