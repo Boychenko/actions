@@ -16016,15 +16016,28 @@ async function run() {
         const accessToken = core_1.getInput('access-token');
         const octokit = github_1.getOctokit(accessToken);
         const imageName = process_1.env['IMAGE_NAME'];
+        const principalId = process_1.env['AZURE_SERVICE_PRINCIPAL_ID'];
+        const principalPassword = process_1.env['AZURE_SERVICE_PRINCIPAL_PASSWORD'];
+        const registry = process_1.env['ACR_REGISTRY'];
         const dockerFilePath = process_1.env['DOCKERFILE_PATH'];
         console.log(process_1.env['WORKING_DIRECTORY']);
         console.log(process_1.env['GITHUB_WORKSPACE']);
         core_1.warning(process_1.env['HOME'] || '');
-        console.log(JSON.stringify(github_1.context, null, 2));
+        //console.log(JSON.stringify(context,null, 2));
         const ws = process_1.env['GITHUB_WORKSPACE'] || '';
         printDir(ws);
         process.chdir(process_1.env['WORKING_DIRECTORY'] || '');
-        const res = shell.exec('docker build -t ' + imageName + ' -f ' + dockerFilePath + ' .');
+        let res = shell.exec('echo ' + principalPassword + ' | docker login -u ' + principalId + ' --password-stdin ' + registry + '.azurecr.io');
+        if (res.code !== 0) {
+            core_1.setFailed(res.stderr);
+            return;
+        }
+        res = shell.exec('docker build -t ' + imageName + ' -f ' + dockerFilePath + ' .');
+        if (res.code !== 0) {
+            core_1.setFailed(res.stderr);
+            return;
+        }
+        res = shell.exec('docker push ' + imageName);
         if (res.code !== 0) {
             core_1.setFailed(res.stderr);
             return;
