@@ -16025,6 +16025,10 @@ async function run() {
         printDir(ws);
         process.chdir(process_1.env['WORKING_DIRECTORY'] || '');
         const res = shell.exec('docker build -t ' + imageName + ' -f ' + dockerFilePath + ' .');
+        if (res.code !== 0) {
+            core_1.setFailed(res.stderr);
+            return;
+        }
         process.chdir(ws + '/..');
         fs.mkdirSync('test');
         printDir('.');

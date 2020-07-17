@@ -20,6 +20,10 @@ async function run(): Promise<void> {
     process.chdir(env['WORKING_DIRECTORY'] || '');
 
     const res = shell.exec('docker build -t '+ imageName + ' -f '+ dockerFilePath +' .');
+    if (res.code !== 0) {
+      setFailed(res.stderr);
+      return;
+    }
 
     process.chdir(ws + '/..');
     fs.mkdirSync('test');
